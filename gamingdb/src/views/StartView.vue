@@ -19,6 +19,7 @@
             <Game @updatescore="voteScore" v-for="game in games.games" :game="game" :key="game._id" />
         </div>
     </div>
+    <span id="error">{{ error }}</span>
 </template>
 <style scoped>
 .grid-container {
@@ -68,6 +69,11 @@ h1 {
 a {
    color: rgb(230, 31, 31);
 }
+#error {
+   
+   color: rgb(230, 31, 31);
+
+}
 @media (max-width: 850px) {
     .grid-container {
         grid-template-columns: repeat(1, 1fr);
@@ -82,7 +88,8 @@ import Game from "../components/Game.vue"
 export default {
     data() {
         return {
-            games: []
+            games: [],
+            error: ""
         }
 
     },
@@ -93,6 +100,7 @@ export default {
     methods: {
         // getting games from db
         async getGames() {
+            console.log(JSON.parse(localStorage["vote"]));
             const response = await fetch("http://localhost:3000/games", {
                 method: "GET",
                 headers: {
@@ -126,6 +134,20 @@ export default {
 
         },
         async voteScore(none, score, vote, id) {
+            let stored_votes = []
+            let setVote = 0;
+            if (localStorage.getItem("vote") != null) stored_votes = JSON.parse(localStorage["vote"]);
+            console.log (id);
+            stored_votes.forEach(vote => {
+                if(vote == id){ 
+                    setVote = 1;
+            }});
+            if (setVote === 0) { 
+            stored_votes.push(id);
+            localStorage["vote"] = JSON.stringify(stored_votes);
+
+
+
             vote = parseInt(vote);
             score.push(vote);
             const game = {
@@ -142,9 +164,14 @@ export default {
                 body: JSON.stringify(game)
             });
             const Data = await response.json();
+           
+
             this.getGames();
 
-            this.$router.go(0)
+            this.$router.go(0)  } else {
+                this.error = "You already voted on this game";
+                document.querySelector('#error').focus();
+            }
 
         }
 

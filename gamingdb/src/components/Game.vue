@@ -13,7 +13,7 @@
             <option value="4">4</option>
             <option value="5">5</option>
         </select>
-           <span @click="this.$emit('updatescore', $event, game.score, this.score, game._id)" class="vote">Vote</span>
+           <span @click="this.$emit('updatescore', $event, game.score, this.score, game._id)" class="vote" id="vote">Vote</span>
 
     </div>
 </template>
@@ -41,6 +41,7 @@ export default {
             this.showScore = total / count;
             this.showScore = Math.round(this.showScore * 100) / 100
 
+         
         }
     },
     mounted() {

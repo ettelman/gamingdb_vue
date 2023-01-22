@@ -7,6 +7,7 @@
           <div class="grid-container three">
             <Game @updatescore="voteScore" v-for="game in games.games" :game="game" :key="game._id" />
       </div></div>
+      <span id="error">{{ error }}</span>
     </template>
     <style scoped>
     .grid-container {
@@ -55,7 +56,8 @@
     export default {
         data() {
             return {
-                games: []
+                games: [],
+                error: ""
             }
     
         },
@@ -80,6 +82,17 @@
             },
             // function for voting on score. using $event to pass several variables in an emit
             async voteScore(none, score, vote, id) {
+                let stored_votes = []
+            let setVote = 0;
+            if (localStorage.getItem("vote") != null) stored_votes = JSON.parse(localStorage["vote"]);
+            console.log (id);
+            stored_votes.forEach(vote => {
+                if(vote == id){ 
+                    setVote = 1;
+            }});
+            if (setVote === 0) { 
+            stored_votes.push(id);
+            localStorage["vote"] = JSON.stringify(stored_votes);
             vote = parseInt(vote);
             // pushing the vote into the score array
             score.push(vote);
@@ -100,9 +113,14 @@
             this.getGames();
             // forcing update because of bug in VUE
             this.$router.go(0)
+        } else {
+                this.error = "You already voted on this game";
+                document.querySelector('#error').focus();
+            }
 
         }
-        },
+        }
+        ,
         mounted() {
             this.getGames();
         }

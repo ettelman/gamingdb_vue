@@ -242,6 +242,7 @@ export default {
             modal.style.display = "none";
         },
         async voteScore() {
+            // for testing purposes you can vote unlimited here
             this.score = parseInt(this.score);
             this.game.score.push(this.score);
             const game = {
