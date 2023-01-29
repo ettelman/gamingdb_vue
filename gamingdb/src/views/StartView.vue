@@ -10,7 +10,7 @@
         </div>
         <div class="grid-small">
             <h2 class="back-h">Add games to the database</h2>
-            <p><RouterLink to="/add">Add</RouterLink> as many games as you would like. Please dont delete other users games without permision.</p>
+            <p><RouterLink to="/add">Add</RouterLink> as many games as you would like. Please dont delete other users games without permission.</p>
         </div>
     </div>
     <div class="big">
