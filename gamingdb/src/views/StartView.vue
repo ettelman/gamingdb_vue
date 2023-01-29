@@ -123,7 +123,7 @@ export default {
                 });
                 total = total / count;
                 total = Math.round(total * 100) / 100
-                // pushing the median score to each object in the db-array
+                // pushing the median score to each object in the db-array with spread operator
                 this.games.games[index] = { ...this.games.games[index], total: total };
                 index++
                 
@@ -137,7 +137,7 @@ export default {
             let stored_votes = []
             let setVote = 0;
             if (localStorage.getItem("vote") != null) stored_votes = JSON.parse(localStorage["vote"]);
-            console.log (id);
+            
             stored_votes.forEach(vote => {
                 if(vote == id){ 
                     setVote = 1;
