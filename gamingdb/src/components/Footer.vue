@@ -1,12 +1,12 @@
 <script>
-  export default {
-        name: "Footer"
-    }
-    </script>
+export default {
+  name: "Footer"
+}
+</script>
 
 <template>
   <footer>
-   GamingDB 2023
+    GamingDB 2023
   </footer>
 </template>
 

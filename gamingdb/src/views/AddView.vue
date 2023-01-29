@@ -128,7 +128,7 @@ export default {
                 });
                 const data = await response.json();
                 // sending user to the created game page
-                this.$router.push('/single/' + data.game._id); 
+                this.$router.push('/single/' + data.game._id);
 
 
             } else {

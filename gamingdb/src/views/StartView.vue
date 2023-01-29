@@ -10,7 +10,10 @@
         </div>
         <div class="grid-small">
             <h2 class="back-h">Add games to the database</h2>
-            <p><RouterLink to="/add">Add</RouterLink> as many games as you would like. Please dont delete other users games without permission.</p>
+            <p>
+                <RouterLink to="/add">Add</RouterLink> as many games as you would like. Please dont delete other users
+                games without permission.
+            </p>
         </div>
     </div>
     <div class="big">
@@ -66,14 +69,17 @@ h1 {
     margin-left: 1rem;
     margin-bottom: 0;
 }
+
 a {
-   color: rgb(230, 31, 31);
+    color: rgb(230, 31, 31);
 }
+
 #error {
-   
-   color: rgb(230, 31, 31);
+
+    color: rgb(230, 31, 31);
 
 }
+
 @media (max-width: 850px) {
     .grid-container {
         grid-template-columns: repeat(1, 1fr);
@@ -93,7 +99,7 @@ export default {
         }
 
     },
-    
+
     components: {
         Game
     },
@@ -116,7 +122,7 @@ export default {
             this.games.games.forEach(game => {
                 let total = 0;
                 let count = 0;
-                
+
                 game.score.forEach(score => {
                     total = score + total;
                     count++;
@@ -126,7 +132,7 @@ export default {
                 // pushing the median score to each object in the db-array with spread operator
                 this.games.games[index] = { ...this.games.games[index], total: total };
                 index++
-                
+
             });
             // sorting games based of score
             this.games.games.sort((a, b) => parseFloat(b.total) - parseFloat(a.total));
@@ -137,38 +143,40 @@ export default {
             let stored_votes = []
             let setVote = 0;
             if (localStorage.getItem("vote") != null) stored_votes = JSON.parse(localStorage["vote"]);
-            
+
             stored_votes.forEach(vote => {
-                if(vote == id){ 
+                if (vote == id) {
                     setVote = 1;
-            }});
-            if (setVote === 0) { 
-            stored_votes.push(id);
-            localStorage["vote"] = JSON.stringify(stored_votes);
-
-
-
-            vote = parseInt(vote);
-            score.push(vote);
-            const game = {
-                score: score
-            };
-
-            const response = await fetch("http://localhost:3000/games/" + id, {
-                method: "PATCH",
-                headers: {
-                    "Accept": "application/json",
-                    "Content-type": "application/json",
-
-                },
-                body: JSON.stringify(game)
+                }
             });
-            const Data = await response.json();
-           
+            if (setVote === 0) {
+                stored_votes.push(id);
+                localStorage["vote"] = JSON.stringify(stored_votes);
 
-            this.getGames();
 
-            this.$router.go(0)  } else {
+
+                vote = parseInt(vote);
+                score.push(vote);
+                const game = {
+                    score: score
+                };
+
+                const response = await fetch("http://localhost:3000/games/" + id, {
+                    method: "PATCH",
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-type": "application/json",
+
+                    },
+                    body: JSON.stringify(game)
+                });
+                const Data = await response.json();
+
+
+                this.getGames();
+
+                this.$router.go(0)
+            } else {
                 this.error = "You already voted on this game";
                 document.querySelector('#error').focus();
             }
